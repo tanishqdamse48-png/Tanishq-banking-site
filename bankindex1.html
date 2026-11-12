@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>SafeBank - Login</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Segoe UI',Arial}
+body{background:#f1f5f9}
+nav{background:#0b1e3a;color:white;display:flex;justify-content:space-between;align-items:center;padding:12px 20px;position:sticky;top:0;z-index:10}
+.logo{display:flex;align-items:center;gap:10px;font-size:22px;font-weight:800}
+.logo span{background:#facc15;color:#0b1e3a;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:50%;font-size:24px}
+.hero{height:260px;background:url('https://images.unsplash.com/photo-1501167786227-4cba60f6d58f?w=1200') center/cover;position:relative;display:flex;align-items:center;justify-content:center;color:white;text-align:center}
+.hero::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,0.55)}
+.hero div{position:relative;z-index:1;padding:20px}
+.hero h1{font-size:36px}.hero h1 span{color:#facc15}
+.photos{display:flex;gap:12px;overflow:auto;padding:15px}
+.photos img{width:260px;height:150px;object-fit:cover;border-radius:15px}
+.container{max-width:950px;margin:auto;padding:15px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+@media(max-width:650px){.cards{grid-template-columns:1fr}.hero h1{font-size:28px}}
+.card{background:white;padding:20px;border-radius:18px;box-shadow:0 5px 20px #0001}
+label{font-size:13px;font-weight:700;color:#334155}
+input,select,textarea{width:100%;padding:12px;margin:5px 0 10px;border:1px solid #ddd;border-radius:10px}
+button{padding:12px;width:100%;border:none;border-radius:10px;font-weight:800;cursor:pointer;margin-top:8px}
+.green{background:#16a34a;color:white}.blue{background:#2563eb;color:white}.yellow{background:#facc15}.red{background:#fee2e2;color:#dc2626}
+.balanceBox{background:linear-gradient(135deg,#0b1e3a,#2563eb);color:white;padding:22px;border-radius:18px;text-align:center}
+.balanceBox h1{font-size:42px;margin:8px 0}
+.txn{padding:12px;border-bottom:1px solid #eee;display:flex;justify-content:space-between}
+.txn b.plus{color:#16a34a}.txn b.minus{color:#dc2626}
+.profileGrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:14px;text-align:left}
+.profileGrid div{background:#f8fafc;padding:10px;border-radius:10px}
+.hidden{display:none}
+footer{background:#0b1e3a;color:white;text-align:center;padding:20px;margin-top:20px}
+footer img{width:100%;max-height:220px;object-fit:cover;border-radius:15px;margin-bottom:12px}
+</style>
+</head>
+<body>
+
+<nav><div class="logo"><span>₹</span> SafeBank</div><div id="navUser" style="font-size:14px"></div></nav>
+<div class="hero"><div><h1>Your Money,<br><span>100% Safe.</span></h1><p>India's Most Trusted Digital Banking • 24x7 Support</p></div></div>
+<div class="photos">
+<img src="https://images.unsplash.com/photo-1541354329998-f4d9a9f9297f?w=800">
+<img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=800">
+<img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800">
+<img src="https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800">
+</div>
+
+<div class="container">
+
+<!-- ===== BAHAR - CREATE + LOGIN ===== -->
+<div id="loginSection">
+<div class="cards">
+<div class="card">
+<h3>✨ Open New Bank Account - KYC Form</h3>
+<label>Full Name *</label><input id="fName" placeholder="Ex: Tanishq Damse">
+<label>Father / Husband Name *</label><input id="fFather" placeholder="Father Name">
+<label>Date of Birth *</label><input id="fDob" type="date">
+<label>Gender *</label><select id="fGender"><option value="Male">Male</option><option value="Female">Female</option><option value="Other">Other</option></select>
+<label>Mobile No. *</label><input id="fMobile" maxlength="10" placeholder="10 Digit Mobile">
+<label>Email ID</label><input id="fEmail" placeholder="Ex: abc@gmail.com">
+<label>Aadhaar No. *</label><input id="fAadhar" maxlength="12" placeholder="12 Digit Aadhaar">
+<label>PAN Card No. *</label><input id="fPan" maxlength="10" placeholder="Ex: ABCDE1234F" style="text-transform:uppercase">
+<label>Full Address *</label><textarea id="fAddress" rows="2" placeholder="House, Street, City, Pincode"></textarea>
+<label>Account Type *</label><select id="fType"><option>Savings Account</option><option>Current Account</option><option>Zero Balance Account</option><option>Student Account</option></select>
+<label>Nominee Name</label><input id="fNominee" placeholder="Nominee Name">
+<label>Opening Balance *</label><input id="fBal" type="number" placeholder="Ex: 5000">
+<label>Create 4-Digit PIN *</label><input id="fPin" type="password" maxlength="4" placeholder="Ex: 1234 - Login ke liye lagega">
+<button class="green" onclick="createAcc()">✅ Submit & Create Account</button>
+<p style="font-size:12px;color:#666;margin-top:8px">Account No. automatic banega. Usko likh ke rakhna!</p>
+</div>
+
+<div class="card" style="height:fit-content">
+<h3>🔐 Login To Your Account</h3>
+<label>Account No.</label><input id="loginAcc" placeholder="Ex: 101">
+<label>4-Digit PIN</label><input id="loginPin" type="password" maxlength="4" placeholder="PIN">
+<button class="blue" onclick="login()">Login →</button>
+<div style="margin-top:15px;background:#fef9c3;padding:12px;border-radius:10px;font-size:13px">
+<b>Demo ke liye:</b><br>1. Left side se Account banao<br>2. Account No. milega (101, 102...)<br>3. Wahi No. + PIN daal ke Login karo
+</div>
+<h3 style="margin-top:20px">📋 All Accounts - Database se</h3>
+<div id="allList"></div>
+</div>
+</div>
+</div>
+
+<!-- ===== ANDAR - DASHBOARD ===== -->
+<div id="dashboard" class="hidden">
+<div class="balanceBox">
+<p>Welcome, <b id="dName"></b> 👋</p>
+<p style="font-size:13px;opacity:0.8">Account No: <span id="dAcc"></span> | <span id="dType"></span></p>
+<p style="margin-top:10px">Total Balance</p>
+<h1 id="dBal">₹0</h1>
+<button class="yellow" style="width:auto;padding:10px 25px" onclick="logout()">Logout 🚪</button>
+</div>
+
+<div class="cards" style="margin-top:15px">
+<div class="card">
+<h3>👤 My Personal Details</h3>
+<div class="profileGrid" id="profileBox"></div>
+</div>
+<div class="card">
+<h3>💸 Deposit / Withdraw</h3>
+<input id="amt" type="number" placeholder="Amount Ex: 500">
+<button class="blue" onclick="deposit()">+ Deposit Money</button>
+<button class="yellow" onclick="withdraw()">- Withdraw Money</button>
+<h3 style="margin-top:15px">📜 Transaction History</h3>
+<div id="txnList"></div>
+</div>
+</div>
+</div>
+
+</div>
+
+<footer><img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=1200"><p><b>SafeBank</b> • Pimpri, Pune • Made with ❤️ in India</p></footer>
+
+<script>
+let current = null;
+function val(id){ return document.getElementById(id).value.trim(); }
+async function api(url, data){
+  let res = await fetch(url, {method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)});
+  return await res.json();
+}
+
+async function createAcc(){
+  let d = {name:val('fName'), father:val('fFather'), dob:val('fDob'), gender:val('fGender'), mobile:val('fMobile'), email:val('fEmail'), aadhar:val('fAadhar'), pan:val('fPan').toUpperCase(), address:val('fAddress'), type:val('fType'), nominee:val('fNominee'), bal:Number(val('fBal')), pin:val('fPin')};
+  if(!d.name||!d.father||!d.dob||!d.mobile||!d.aadhar||!d.pan||!d.address||!d.pin){ alert("⚠️ Star (*) wale sab bharo!"); return; }
+  if(d.mobile.length!=10){ alert("Mobile 10 digit ka hona chahiye!"); return; }
+  if(d.aadhar.length!=12){ alert("Aadhaar 12 digit ka hona chahiye!"); return; }
+  if(d.pin.length!=4){ alert("PIN 4 digit ka hona chahiye!"); return; }
+  let r = await api('/api/create', d);
+  if(r.success){ alert("🎉 Account Created!\n\nAccount No: "+r.acc_no+"\nPIN: "+d.pin+"\n\nIsko yaad rakhna, isi se Login hoga!"); showAll(); }
+  else alert("Error: "+r.error);
+}
+
+async function login(){
+  let r = await api('/api/login', {acc:val('loginAcc'), pin:val('loginPin')});
+  if(!r.success){ alert("❌ Galat Account No. ya PIN!"); return; }
+  current = r.data;
+  document.getElementById("loginSection").classList.add("hidden");
+  document.getElementById("dashboard").classList.remove("hidden");
+  document.getElementById("navUser").innerText = "Hi, "+current.name;
+  updateDash();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function logout(){
+  current=null;
+  document.getElementById("dashboard").classList.add("hidden");
+  document.getElementById("loginSection").classList.remove("hidden");
+  document.getElementById("navUser").innerText="";
+  showAll();
+}
+
+function updateDash(){
+  document.getElementById("dName").innerText = current.name;
+  document.getElementById("dAcc").innerText = current.acc_no;
+  document.getElementById("dType").innerText = current.type;
+  document.getElementById("dBal").innerText = "₹"+current.balance;
+  document.getElementById("profileBox").innerHTML = `
+    <div><b>Full Name</b><br>${current.name}</div><div><b>Father Name</b><br>${current.father}</div>
+    <div><b>DOB</b><br>${current.dob}</div><div><b>Gender</b><br>${current.gender}</div>
+    <div><b>Mobile</b><br>${current.mobile}</div><div><b>Email</b><br>${current.email||'-'}</div>
+    <div><b>Aadhaar</b><br>${current.aadhar_masked}</div><div><b>PAN</b><br>${current.pan}</div>
+    <div><b>Nominee</b><br>${current.nominee||'-'}</div><div><b>Address</b><br>${current.address}</div>`;
+  let html="";
+  current.txns.forEach(t=>{
+    let isPlus = t.type=='Deposit' || t.type=='Opening';
+    html+=`<div class="txn"><div><b>${t.type}</b><br><small>${t.date}</small></div><b class="${isPlus?'plus':'minus'}">${isPlus?'+':'-'} ₹${t.amount}</b></div>`;
+  });
+  document.getElementById("txnList").innerHTML = html || "No Transactions";
+}
+
+async function deposit(){ await doTxn('Deposit'); }
+async function withdraw(){ await doTxn('Withdraw'); }
+async function doTxn(type){
+  let amt = Number(document.getElementById("amt").value);
+  if(!amt){ alert("Amount daalo!"); return; }
+  let r = await api('/api/transaction', {acc:current.acc_no, type:type, amt:amt});
+  if(!r.success){ alert("Insufficient Balance!"); return; }
+  current.balance = r.balance;
+  current.txns.unshift({type:type, amount:amt, date:'Just Now'});
+  updateDash();
+  document.getElementById("amt").value="";
+}
+
+async function showAll(){
+  let res = await fetch('/api/all');
+  let bank = await res.json();
+  let html="";
+  bank.forEach(b=>{ html+=`<div style="padding:10px;border-bottom:1px solid #eee;display:flex;justify-content:space-between"><b>${b.name} ( ${b.acc_no} )</b><b style="color:#16a34a">₹${b.balance}</b></div>` });
+  document.getElementById("allList").innerHTML = html || "No Accounts Yet";
+}
+showAll();
+</script>
+</body>
+</html>
